@@ -1,0 +1,97 @@
+<sensors>
+  <sensor>
+    <name>Osquery</name>
+    <result_type>1</result_type>
+    <seconds>86400</seconds>
+    <seconds_never_flag>1</seconds_never_flag>
+    <qseconds>60</qseconds>
+    <event_flag>0</event_flag>
+    <ignore_case_flag>1</ignore_case_flag>
+    <weight>0</weight>
+    <category>User</category>
+    <exclude_from_parse>1</exclude_from_parse>
+    <delimiter>,</delimiter>
+    <description>Runs an Osquery command on a host</description>
+    <what_hash></what_hash>
+    <hidden_flag>0</hidden_flag>
+    <columns/>
+    <queries>
+      <sensor_query>
+        <query>#!/bin/bash
+
+
+urldecode() {
+        local data=$(echo "$1" | sed -e 's/\+/ /g' -e 's/%/\\x/g')
+        printf '%b' "$data"
+}
+
+
+sql_query="$(urldecode "||sql||")"
+format="$(urldecode "||format||")"
+
+/usr/bin/osqueryi $format "$sql_query"</query>
+        <sensor_type>6</sensor_type>
+        <os>1</os>
+        <signature/>
+      </sensor_query>
+      <sensor_query>
+        <query>#!/bin/bash
+
+
+urldecode() {
+        local data=$(echo "$1" | sed -e 's/\+/ /g' -e 's/%/\\x/g')
+        printf '%b' "$data"
+}
+
+
+sql_query="$(urldecode "||sql||")"
+format="$(urldecode "||format||")"
+
+/usr/bin/osqueryi $format "$sql_query"</query>
+        <sensor_type>6</sensor_type>
+        <os>2</os>
+        <signature/>
+      </sensor_query>
+    </queries>
+    <meta_data/>
+    <parameters>
+      <param>
+        <varname>||format||</varname>
+        <value/>
+      </param>
+      <param>
+        <varname>||sql||</varname>
+        <value/>
+      </param>
+      <parameter_text>{"parameters":[{"label":"Sql","promptText":"Enter the Osqueryi sql","key":"sql","value":"","helpString":"select * from time","maxChars":0,"restrict":null,"defaultValue":"","validationExpressions":[],"parameterType":"com.tanium.components.parameters::TextInputParameter","model":"com.tanium.components.parameters::TextInputParameter"},{"label":"Format","promptText":null,"key":"format","value":"--line","helpString":null,"maxChars":0,"restrict":null,"defaultValue":"--line","validationExpressions":[],"parameterType":"com.tanium.components.parameters::TextInputParameter","model":"com.tanium.components.parameters::TextInputParameter"}],"model":"com.tanium.components.parameters::ParametersArray","parameterType":"com.tanium.components.parameters::ParametersArray"}</parameter_text>
+    </parameters>
+  </sensor>
+  <sensor>
+    <name>Osqueryd Status</name>
+    <result_type>1</result_type>
+    <seconds>86400</seconds>
+    <seconds_never_flag>1</seconds_never_flag>
+    <qseconds>60</qseconds>
+    <event_flag>0</event_flag>
+    <ignore_case_flag>1</ignore_case_flag>
+    <weight>0</weight>
+    <category>Software</category>
+    <exclude_from_parse>1</exclude_from_parse>
+    <delimiter>,</delimiter>
+    <description>Returns the running status of Osqueryd</description>
+    <what_hash></what_hash>
+    <hidden_flag>0</hidden_flag>
+    <columns/>
+    <queries>
+      <sensor_query>
+        <query>#!/bin/bash
+/etc/init.d/osqueryd status</query>
+        <sensor_type>6</sensor_type>
+        <os>1</os>
+        <signature/>
+      </sensor_query>
+    </queries>
+    <meta_data/>
+    <parameters/>
+  </sensor>
+</sensors>
